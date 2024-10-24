@@ -209,6 +209,7 @@ void lihatDataNasabah()
 
 void lihatRiwayatSetorTarik()
 {
+    printf("\n5. Riwayat Setor dan Tarik");
     printf("\nRiwayat Setoran:");
     printf("\n================\n");
     for (int i = 0; i < totalSetor ; i++)
