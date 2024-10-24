@@ -19,7 +19,6 @@ void lihatRiwayatSetorTarik();
 void pesanNoNasabah();
 void pesanTerblokir();
 int cekPin();
-void cekBlokir();
 
 //deklarasi variabel nasabah
 string nama;
