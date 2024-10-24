@@ -106,10 +106,10 @@ int main()
             }
             break;
         case 0:
-            printf("Terima kasih telah menggunakan ATM ABC!\n");
+            printf("\nTerima kasih telah menggunakan ATM ABC!\n");
             return 0;
         default:
-            printf("Menu tidak ditemukan");
+            printf("\nMenu tidak ditemukan");
             break;
         }
     } 
@@ -120,7 +120,7 @@ int main()
 void daftarNasabah()
 {
     printf("\n1. Daftar Nasabah\n");
-    printf("Masukkan data nasabah \n");
+    printf("\nMasukkan data nasabah \n");
     printf("Nama    : "); scanf("%s", nama);
     printf("Alamat  : "); scanf("%s", alamat);
     printf("No. KTP : "); scanf("%s", ktp);
@@ -210,13 +210,15 @@ void lihatDataNasabah()
 
 void lihatRiwayatSetorTarik()
 {
-    printf("Riwayat Setoran:\n");
+    printf("\nRiwayat Setoran:");
+    printf("\n================\n");
     for (int i = 0; i < totalSetor ; i++)
     {
         printf("Setoran ke-%d. %d \n", i+1, setor[i]);
     }
 
-    printf("Riwayat Tarikan:\n");
+    printf("\nRiwayat Tarikan:");
+    printf("\n================\n");
     for (int i = 0; i < totalTarik ; i++)
     {
         printf("Tarikan ke-%d. %d \n", i+1, tarik[i]);
