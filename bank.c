@@ -17,6 +17,7 @@ void lihatDataNasabah();
 void lihatRiwayatSetorTarik();
 
 //deklarasi prosedur dan fungsi pendukung
+void initSetorTarik();
 void pesanNoNasabah();
 void pesanTerblokir();
 void pesanEnter();
@@ -155,6 +156,9 @@ void daftarNasabah()
     blokirStatus = 0;
     nasabahStatus = 1;
 
+    initSetorTarik(setor);
+    initSetorTarik(tarik);
+
     printf("Nasabah %s berhasil didaftarkan dengan saldo %d", nama, saldo);
 }
 
@@ -287,6 +291,14 @@ int cekPin()
     blokirStatus = 1;
     printf("\nAkun diblokir karena 3 kali kesalahan Pin!");
     return 0;
+}
+
+void initSetorTarik(int arr[])
+{
+    for(int i = 0; i < MAX_TRANSAKSI; i++) 
+    {
+        arr[i] = 0;
+    }
 }
 
 void pesanEnter()
