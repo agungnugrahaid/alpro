@@ -3,22 +3,31 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MAX_TRANSAKSI 100
+/*
+UTS Algoritma dan Struktur Data 
+- Agung Nugraha Eka Saputra (241220055)
+- Wagiyo Hadi Kristanto     (241210011)
+*/
 
+//deklarasi maksium transaksi setor-tarik yang diperbolehkan
+#define MAX_TRANSAKSI 2
+
+//deklarasi tipe data string dengan panjang karakter 255
 typedef char string[255];
 
-// Prototypes for menu-related functions
+//deklarasi fungsi dan prosedur sesuai menu
 void daftarNasabah(string *nama, string *alamat, long *ktp, int *pin, int setor[], int tarik[], bool *blokirStatus, bool *nasabahStatus, int *saldo, int *totalSetor, int *totalTarik);
 void setorUang(int pin, bool *blokirStatus, int *totalSetor, int *saldo, int setor[]);
 void tarikUang(int pin, bool *blokirStatus, int *saldo, int tarik[], int *totalTarik);
 void lihatDataNasabah(string nama, string alamat, long ktp, int saldo);
-void lihatRiwayatSetorTarik(int setor[], int tarik[], int totalSetor, int totalTarik);
+void lihatRiwayatSetorTarik(int setor[], int tarik[], int totalSetor, int totalTarik, int saldo);
 
-// Prototypes for supporting functions
+//deklarasi fungsi dan prosedur pendukung
 void initSetorTarik(int arr[]);
+void initDataNasabah();
 void pesanNoNasabah();
 void pesanTerblokir();
-void pesanEnter();
+void getch();
 int cekPin(int actualPin, bool *blokirStatus);
 
 int main() {
@@ -29,6 +38,7 @@ int main() {
     int setor[MAX_TRANSAKSI], tarik[MAX_TRANSAKSI];
     int totalSetor = 0, totalTarik = 0;
     bool nasabahStatus = false, blokirStatus = false;
+    char confirmDel;
     int pilihan;
 
     do {
@@ -41,17 +51,26 @@ int main() {
         printf("\n5. Lihat Riwayat Setor dan Tarik");
         printf("\n0. Keluar");
         printf("\nPilih Menu: ");
-        scanf("%d", &pilihan);
-        getchar(); // Clear newline from input buffer
+            scanf("%d", &pilihan);
+        getchar(); 
 
         switch (pilihan) {
             case 1:
                 if (!nasabahStatus) {
                     daftarNasabah(&nama, &alamat, &ktp, &pin, setor, tarik, &blokirStatus, &nasabahStatus, &saldo, &totalSetor, &totalTarik);
                 } else {
-                    printf("Nasabah sudah terdaftar!");
+                    printf("\nNasabah sudah terdaftar!");
+                    printf("\nApakah anda akan menghapusnya? [Y/y]");
+                        scanf("%c",&confirmDel);
+                    getchar();
+                    if (confirmDel == 'y' || confirmDel == 'Y')
+                    {
+                        nasabahStatus=false;
+                        blokirStatus=false;
+                        daftarNasabah(&nama, &alamat, &ktp, &pin, setor, tarik, &blokirStatus, &nasabahStatus, &saldo, &totalSetor, &totalTarik);
+                    }
                 }
-                pesanEnter();
+                getch();
                 break;
             case 2:
                 if (!nasabahStatus) {
@@ -59,7 +78,7 @@ int main() {
                 } else {
                     setorUang(pin, &blokirStatus, &totalSetor, &saldo, setor);
                 }
-                pesanEnter();
+                getch();
                 break;
             case 3:
                 if (!nasabahStatus) {
@@ -67,7 +86,7 @@ int main() {
                 } else {
                     tarikUang(pin, &blokirStatus, &saldo, tarik, &totalTarik);
                 }
-                pesanEnter();
+                getch();
                 break;
             case 4:
                 if (!nasabahStatus) {
@@ -75,22 +94,22 @@ int main() {
                 } else {
                     lihatDataNasabah(nama, alamat, ktp, saldo);
                 }
-                pesanEnter();
+                getch();
                 break;
             case 5:
                 if (!nasabahStatus) {
                     pesanNoNasabah();
                 } else {
-                    lihatRiwayatSetorTarik(setor, tarik, totalSetor, totalTarik);
+                    lihatRiwayatSetorTarik(setor, tarik, totalSetor, totalTarik, saldo);
                 }
-                pesanEnter();
+                getch();
                 break;
             case 0:
                 printf("\nTerima kasih telah menggunakan ATM ABC!\n");
                 return 0;
             default:
                 printf("\nMenu tidak ditemukan");
-                pesanEnter();
+                getch();
                 break;
         }
     } while (pilihan != 0);
@@ -99,17 +118,19 @@ int main() {
 void daftarNasabah(string *nama, string *alamat, long *ktp, int *pin, int setor[], int tarik[], bool *blokirStatus, bool *nasabahStatus, int *saldo, int *totalSetor, int *totalTarik) {
     printf("\n1. Daftar Nasabah\n");
     printf("\nMasukkan data nasabah \n");
-    //getchar();
     printf("Nama    : ");
-    fgets(*nama, sizeof(*nama), stdin);
-    (*nama)[strcspn(*nama, "\n")] = '\0';
+        //menggunakan fgets agar menerima input spasi
+        fgets(*nama, sizeof(*nama), stdin);
+        //menghilangkan \n (enter) dari value 
+        (*nama)[strcspn(*nama, "\n")] = '\0';
     printf("Alamat  : ");
-    fgets(*alamat, sizeof(*alamat), stdin);
-    (*alamat)[strcspn(*alamat, "\n")] = '\0';
+        fgets(*alamat, sizeof(*alamat), stdin);
+        (*alamat)[strcspn(*alamat, "\n")] = '\0';
     printf("No. KTP : ");
-    scanf("%ld", ktp);
+        scanf("%ld", ktp);
     printf("PIN     : ");
-    scanf("%d", pin);
+        scanf("%d", pin);
+    getchar();
 
     *saldo = 0;
     *totalSetor = 0;
@@ -134,7 +155,8 @@ void setorUang(int pin, bool *blokirStatus, int *totalSetor, int *saldo, int set
             printf("Maksimal setoran tercapai!");
         } else {
             printf("Masukkan Jumlah uang yang akan disetor: ");
-            scanf("%d", &uangdisetor);
+                scanf("%d", &uangdisetor);
+            getchar();
             setor[*totalSetor] = uangdisetor;
             (*totalSetor)++;
             *saldo += uangdisetor;
@@ -155,6 +177,7 @@ void tarikUang(int pin, bool *blokirStatus, int *saldo, int tarik[], int *totalT
         } else {
             printf("Masukkan Jumlah uang yang akan ditarik: ");
             scanf("%d", &uangditarik);
+            getchar();
             if (uangditarik > *saldo) {
                 printf("Saldo Anda: %d tidak mencukupi, masukkan nominal yang lebih kecil\n", *saldo);
                 tarikUang(pin, blokirStatus, saldo, tarik, totalTarik);
@@ -176,7 +199,7 @@ void lihatDataNasabah(string nama, string alamat, long ktp, int saldo) {
     printf("\nSaldo   : %d", saldo);
 }
 
-void lihatRiwayatSetorTarik(int setor[], int tarik[], int totalSetor, int totalTarik) {
+void lihatRiwayatSetorTarik(int setor[], int tarik[], int totalSetor, int totalTarik, int saldo) {
     printf("\n5. Riwayat Setor dan Tarik\n");
 
     if (totalSetor == 0 && totalTarik == 0) {
@@ -193,6 +216,7 @@ void lihatRiwayatSetorTarik(int setor[], int tarik[], int totalSetor, int totalT
     for (int i = 0; i < totalTarik; i++) {
         printf("Tarikan ke-%d: %d \n", i + 1, tarik[i]);
     }
+    printf("\nSaldo Akhir : %d",saldo);
 }
 
 void pesanNoNasabah() {
@@ -210,6 +234,7 @@ int cekPin(int actualPin, bool *blokirStatus)
     while (percobaan > 0) {
         printf("\nMasukkan PIN: ");
         scanf("%d", &pinInput);
+        getchar();
         if (pinInput == actualPin) {
             return 1;
         }
@@ -229,9 +254,8 @@ void initSetorTarik(int arr[])
     }
 }
 
-void pesanEnter()
+void getch()
 {
-    printf("\nTekan Enter untuk melanjutkan...");
-    while (getchar() != '\n');
+    printf("\n...");
     getchar();
 }

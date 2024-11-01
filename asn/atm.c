@@ -4,20 +4,16 @@
 #include <stdlib.h>
 //#include <conio.h>
 
-//deklarasi maksimum transaksi setor/tarik yang diperbolehkan
 #define MAX_Transaksi 100
 
-//deklarasi tipe data string mempunyai panjang 255 karakter
 typedef char string[255];
 
-//deklarasi prosedur dan fungsi sesuai menu
 void daftarNasabah(string *nama, string *alamat, int *ktp, int *pin, int setor[], int tarik[], bool *blokir, int *saldo);
 int setorUang(int pin, bool *blokir, int saldo, int setor[]);
 int tarikUang(int pin, bool *blokir, int saldo, int tarik[]);
 void displayNasabah(string nama, string alamat, int ktp, int saldo);
 void displaySetorTarik(int setor[], int tarik[]);
 
-//deklarasi prosedur pendukung
 void initSetorTarik(int arr[]);
 bool checkPIN(int *attempts, int correctPIN, bool *blokir);
 void getch();
