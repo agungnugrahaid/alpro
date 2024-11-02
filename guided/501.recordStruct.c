@@ -62,10 +62,10 @@ void init(mobil *m)
 
 void entryData(mobil *m)
 {
-    printf("Input Tahun: ");
+    printf("Input Tahun\t: ");
         scanf("%d",&(*m).tahun);
         getchar();
-    printf("Input Merk: ");
+    printf("Input Merk\t: ");
         fgets(((*m).merk), sizeof((*m).merk),stdin);
     ((*m).merk)[strcspn(((*m).merk),"\n")] = '\0';
 }
@@ -73,8 +73,8 @@ void entryData(mobil *m)
 void show(mobil m)
 {
     puts("Data Mobil");
-    printf("Tahun: %d\n",m.tahun);
-    printf("Merk: %s\n",m.merk);
+    printf("Tahun\t: %d\n",m.tahun);
+    printf("Merk\t: %s\n",m.merk);
 }
 
 void pause()
