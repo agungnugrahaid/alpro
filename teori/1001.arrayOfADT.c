@@ -6,7 +6,7 @@
 typedef char string[255];
 
 //deklrasai ADT
-typedef struct{
+typedef struct{e
     string judul[255];
     string prodi;
     float ipk;
