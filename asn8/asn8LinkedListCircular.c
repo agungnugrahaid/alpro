@@ -17,13 +17,13 @@ typedef struct
 
 /* The Default Linked List Circular Functions */
 
-// Inisialisasi, buat List dengan 1 elemen berisi NULL
+//Inisialisasi, buat List dengan 1 elemen berisi NULL
 void createEmpty(List *L)
 {
     (*L).First=NULL;
 }
 
-// Cek apakah list kosong atau tidak
+//Cek apakah list kosong atau tidak
 bool isEmpty(List L)
 {
     if (L.First==NULL)
@@ -59,7 +59,8 @@ void deAlokasi(address P)
     free(P);
 }
 
-//Mencari address elemen terakhir. Karena Linked List Circular, maka address elemen terakhir adalah yang setelahnya adalah address elemen pertama
+//Mencari address elemen terakhir. 
+//Karena Linked List Circular, maka address elemen terakhir adalah yang setelahnya adalah address elemen pertama
 address findLast(List L)
 {
     address P=L.First;
@@ -162,16 +163,16 @@ void insertLast(List *L, typeint x)
         address Last=findLast(*L);
         Ptr->Next=Last->Next;
         Last->Next=Ptr;
-        printf("\nLast Value Added Successfully!\n");
+        //printf("\nLast Value Added Successfully!\n");
     }
     else
     {
         insertFirst(L, Ptr);
-        printf("\nFirst AND Last Value Added Successfully!\n");
+        //printf("\nFirst AND Last Value Added Successfully!\n");
     }
 }
 
-//Delete 
+//Delete the last iteration
 void delLast(List *L)
 {
     address P, DelNode;
@@ -199,11 +200,144 @@ void delLast(List *L)
     }
 }
 
-void subMenu()
+//SubMenu Penjumlahan
+typeint penjumlahan(List L)
 {
+    address P=L.First;
+    typeint hasil=P->value;     //First value
+    P=P->Next;
 
+    while (P!=L.First)
+    {
+        hasil+=P->value;        //Loop penjumlahan
+        P=P->Next;
+    }
+    return hasil;               //Kembalian hasil penjumlahan
 }
 
+//SubMenu Pengurangan
+typeint pengurangan(List L)
+{
+    address P=L.First;
+    typeint hasil=P->value;     //First value
+    P=P->Next;
+
+    while (P!=L.First)
+    {
+        hasil-=P->value;        //Loop pengurangan
+        P=P->Next;
+    }
+    return hasil;               //Kembalian hasil pengurangan
+}
+
+//SubMenu Perkalian
+typeint perkalian(List L)
+{
+    address P=L.First;
+    typeint hasil=P->value;     //First value
+    P=P->Next;
+
+    while (P!=L.First)
+    {
+        hasil*=P->value;        //Loop perkalian
+        P=P->Next;
+    }
+    return hasil;               //Kembalian hasil perkalian
+}
+
+//SubMenu Pembagian
+typeint pembagian(List L)
+{
+    address P=L.First;
+    typeint hasil=P->value;     //First value
+    P=P->Next;
+
+    while (P!=L.First)
+    {
+        if (P->value==0)
+        {
+            printf("Value dalam list tidak boleh 0 untuk operasi pembagian!");
+            return hasil;       
+        }
+        hasil/=P->value;        //Loop pembagian
+        P=P->Next;
+    }
+    return hasil;               //Kembalian hasil pembagian
+}
+
+//Helper Menu Show Both Lists biar ga ngetik ulang
+void showBothList(List L1, List L2)
+{
+    printf("\nList A: ");
+    showList(L1);
+    printf("\nList B: ");
+    showList(L2);
+    return;
+}
+
+//Helper Menu, menginisiasi ulang List dan mengisi value hasil aritmatika
+void replaceWithResult(List *L, typeint hasil)
+{
+    createEmpty(L);
+    insertLast(L, hasil);
+}
+
+//Menu Operasi Aritmatika (No. 6)
+void operasiAritmatika(List *L1, List *L2)
+{
+    if (isEmpty(*L1) || isEmpty(*L2))
+    {
+        printf("Kedua lists harus terisi !!!");
+        showBothList(*L1, *L2);
+        return;
+    }
+    printf("Pilih Operasi Aritmatika [ +, -, *, / ] : ");
+    switch (getchar())
+    {
+    case '+':
+        getchar();
+        showBothList(*L1, *L2);
+        printf("\nOperasi penjumlahan List A: %.2f",penjumlahan(*L1));
+        printf("\nOperasi penjumlahan List B: %.2f",penjumlahan(*L2));
+        replaceWithResult(L1, penjumlahan(*L1));
+        replaceWithResult(L2, penjumlahan(*L2));
+        getchar();
+        break;
+    case '-':
+        getchar();
+        showBothList(*L1, *L2);
+        printf("\nOperasi pengurangan List A: %.2f",pengurangan(*L1));
+        printf("\nOperasi pengurangan List B: %.2f",pengurangan(*L2));
+        replaceWithResult(L1, pengurangan(*L1));
+        replaceWithResult(L2, pengurangan(*L2));
+        getchar();
+        break;
+    case '*':
+        getchar();
+        showBothList(*L1, *L2);
+        printf("\nOperasi perkalian List A: %.2f",perkalian(*L1));
+        printf("\nOperasi perkalian List B: %.2f",perkalian(*L2));
+        replaceWithResult(L1, perkalian(*L1));
+        replaceWithResult(L2, perkalian(*L2));
+        getchar();
+        break;
+    case '/':
+        getchar();
+        showBothList(*L1, *L2);
+        printf("\nOperasi pembagian List A: %.2f",pembagian(*L1));
+        printf("\nOperasi pembagian List B: %.2f",pembagian(*L2));
+        replaceWithResult(L1, pembagian(*L1));
+        replaceWithResult(L2, pembagian(*L2));
+        getchar();
+        break;
+    default:
+        getchar();
+        printf("Simbol tidak valid!!!");
+        break;
+    }
+}
+
+// Menu Merge List (No. 7)
 void mergeLists(List *L1, List *L2)
 {
     if (isEmpty(*L2))
@@ -250,7 +384,7 @@ int main()
         puts("[3] Delete Data List A");              //use delLast()
         puts("[4] Delete Data List B");              //use delLast()
         puts("[5] Show List A & List B");            //
-        puts("[6] Sub-Menu Operasi dan Eksekusi");
+        puts("[6] Operasi dan Eksekusi Aritmatika");
         puts("[7] Merge List");
         puts("[0] Exit");
         printf("Pilih : ");
@@ -286,19 +420,18 @@ int main()
             break;
         case '5':
             getchar();
-            printf("[5] Show Lists Value\nList A: ");
-            showList(L1);
-            printf("\nList B: ");
-            showList(L2);
+            printf("[5] Show List A & List B");
+            showBothList(L1, L2);
+            break;
+        case '6':
+            getchar();
+            operasiAritmatika(&L1, &L2);
             break;
         case '7':
             getchar();
             printf("[7] Merge List");
             mergeLists(&L1, &L2);
-            printf("\nList A: ");
-            showList(L1);
-            printf("\nList B: ");
-            showList(L2);
+            showBothList(L1, L2);
             break;
         default:
             getchar();
