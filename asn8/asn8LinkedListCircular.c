@@ -301,7 +301,6 @@ void operasiAritmatika(List *L1, List *L2)
         printf("\nOperasi penjumlahan List B: %.2f",penjumlahan(*L2));
         replaceWithResult(L1, penjumlahan(*L1));
         replaceWithResult(L2, penjumlahan(*L2));
-        getchar();
         break;
     case '-':
         getchar();
@@ -310,7 +309,6 @@ void operasiAritmatika(List *L1, List *L2)
         printf("\nOperasi pengurangan List B: %.2f",pengurangan(*L2));
         replaceWithResult(L1, pengurangan(*L1));
         replaceWithResult(L2, pengurangan(*L2));
-        getchar();
         break;
     case '*':
         getchar();
@@ -319,7 +317,6 @@ void operasiAritmatika(List *L1, List *L2)
         printf("\nOperasi perkalian List B: %.2f",perkalian(*L2));
         replaceWithResult(L1, perkalian(*L1));
         replaceWithResult(L2, perkalian(*L2));
-        getchar();
         break;
     case '/':
         getchar();
@@ -328,10 +325,8 @@ void operasiAritmatika(List *L1, List *L2)
         printf("\nOperasi pembagian List B: %.2f",pembagian(*L2));
         replaceWithResult(L1, pembagian(*L1));
         replaceWithResult(L2, pembagian(*L2));
-        getchar();
         break;
     default:
-        getchar();
         printf("Simbol tidak valid!!!");
         break;
     }
@@ -382,7 +377,7 @@ int main()
         puts("[1] Insert Data List A");              //use insertLast()
         puts("[2] Insert Data List B");              //use insertLast()
         puts("[3] Delete Data List A");              //use delLast()
-        puts("[4] Delete Data List B");              //use delLast()
+        puts("[4] Delete Data List B");              //use delLast(i)
         puts("[5] Show List A & List B");            //
         puts("[6] Operasi dan Eksekusi Aritmatika");
         puts("[7] Merge List");
@@ -439,6 +434,7 @@ int main()
             break;
         case '0':
             return 0;
+            break;
         }
     } 
     while (getchar()!=0);
