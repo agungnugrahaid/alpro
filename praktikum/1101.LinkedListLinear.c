@@ -173,12 +173,13 @@ void InsertAfter(List *L, Barang a, int after)
 			P->Next=Ptr;
 			printf("Berhasil memasukkan data!");
 		}else{
-			printf("Data tidak ditemukan!",after);
+			printf("Data tidak ditemukan! %d",after);
 		}
 	}else{
 		InsertFirst(L, Ptr);
 		printf("Berhasil memasukkan data!");
 	}
+
 }
 
 void ShowList(List L){
@@ -186,7 +187,7 @@ void ShowList(List L){
 	P=L.First;
 	if(!isEmpty(L)){
 		do{
-			printf("\nKode: ", P->value.kode);
+			printf("\nKode: %d", P->value.kode);
 			printf("\nNama: %s", P->value.nama);
 			printf("\nJml: %d", P->value.jumlah);
 			printf("\nHrg: %d", P->value.harga);
@@ -251,7 +252,7 @@ int main()
 	CreateEmpty(&L);
 	do
 	{
-		puts("Menu <nama program anda>");
+		puts("Menu Toko Sebelah");
 		puts("1. Insert First Barang");
 		puts("2. Delete First Barang");
 		puts("3. Insert Last Barang");
@@ -261,13 +262,13 @@ int main()
 		puts("7. Show List");
 		puts("8. Cari By Tgl Beli");
 		puts("9. Order By Kode Descending");
-		puts("Esc. Exit");
+		puts("0. Exit");
 		puts("Pilih : ");
 		switch(getchar())
 		{
 		case '1' :	printf("Input Kode Barang: ");scanf("%d", &a.kode);
 					fflush(stdin);
-					printf("Input Nama Barang: ");scanf("%s", &a.nama);
+					printf("Input Nama Barang: ");scanf("%s", a.nama); 		//tidak perlu & karena tipe data otomatis ke pointer array alamat pertama (&a.nama[0])
 					printf("Input Jml Barang: ");scanf("%d", &a.jumlah);
 					printf("Input Hrg Barang: ");scanf("%d", &a.harga);
 					printf("Input Tgl Beli: ");scanf("%d", &a.tgl_beli.tgl);
@@ -279,7 +280,7 @@ int main()
 					break;
 		case '3' :	printf("Input Kode Barang: ");scanf("%d", &a.kode);
 					fflush(stdin);
-					printf("Input Nama Barang: ");scanf("%s", &a.nama);
+					printf("Input Nama Barang: ");scanf("%s", a.nama);
 					printf("Input Jml Barang: ");scanf("%d", &a.jumlah);
 					printf("Input Hrg Barang: ");scanf("%d", &a.harga);
 					printf("Input Tgl Beli: ");scanf("%d", &a.tgl_beli.tgl);
@@ -292,7 +293,7 @@ int main()
 		case '5' :	if(!isEmpty(L)){
 						printf("Input Kode Barang: ");scanf("%d", &a.kode);
 						fflush(stdin);
-						printf("Input Nama Barang: ");scanf("%s", &a.nama);
+						printf("Input Nama Barang: ");scanf("%s", a.nama);
 						printf("Input Jml Barang: ");scanf("%d", &a.jumlah);
 						printf("Input Hrg Barang: ");scanf("%d", &a.harga);
 						printf("Input Tgl Beli: ");scanf("%d", &a.tgl_beli.tgl);
@@ -314,6 +315,8 @@ int main()
 					cariByTglBeli(L,d);
 					break;
 		case '9' :	orderByKode(&L);
+					break;
+		case '0' :	return 0;
 		}
 	}while(getchar()!=27);
 	getchar();
